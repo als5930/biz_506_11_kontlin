@@ -1,5 +1,6 @@
 package com.biz.hello
 
+
 class Standard(data : Int){}
 class Standard1 private constructor(){}
 
