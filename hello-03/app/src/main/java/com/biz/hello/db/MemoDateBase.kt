@@ -12,7 +12,7 @@ import java.util.concurrent.Executors
 @Database(entities = [MemoVO::class],version = 1 ,exportSchema =false)
 abstract class MemoDateBase : RoomDatabase() {
 
-    abstract val memoDao : MemoDao
+    abstract fun getMemoDao() : MemoDao?
 
     companion object {
         private var INSTANCE : MemoDateBase? = null
@@ -20,13 +20,16 @@ abstract class MemoDateBase : RoomDatabase() {
 
         val databaseWriterExcutor:ExecutorService = Executors.newFixedThreadPool(
             NUMBER_THREADS)
+
+        @Synchronized
         fun getInstance(context : Context) : MemoDateBase? {
             if(INSTANCE == null){
-                synchronized(MemoDateBase::class.java){
                     INSTANCE = Room.databaseBuilder(context.applicationContext,
-                    MemoDateBase::class.java, "memo_datebase").build()
+                    MemoDateBase::class.java, "memo_datebase")
+                        .allowMainThreadQueries()
+                        .build()
                 }
-            }
+
             return INSTANCE
         }
     }

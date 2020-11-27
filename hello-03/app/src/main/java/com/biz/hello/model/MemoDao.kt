@@ -1,11 +1,9 @@
 package com.biz.hello.model
 
 import androidx.lifecycle.LiveData
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 
+@Dao
 interface MemoDao {
 
     @Query("SELECT * FROM tbl_memo")

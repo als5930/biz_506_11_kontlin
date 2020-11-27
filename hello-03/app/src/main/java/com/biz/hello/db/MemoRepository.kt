@@ -8,21 +8,23 @@ import com.biz.hello.model.MemoVO
 class MemoRepository(app : Application) {
 
     private lateinit var memoDao : MemoDao
-    private lateinit var memoList : LiveData<MutableList<MemoVO>>
 
     init {
 
         val db : MemoDateBase? = MemoDateBase.getInstance(app)
         if(db != null){
-            memoDao = db.memoDao
+            memoDao = db.getMemoDao()!!
         }
-        memoList = memoDao.selectAll()
 
     }
 
     fun selectAll() : LiveData<MutableList<MemoVO>>{
 
-        return this.memoList
+        return memoDao.selectAll()
+    }
+
+    fun findById(id:Long) : MemoVO{
+        return memoDao.findById(id)
     }
 
     fun insert(memoVO: MemoVO) {
@@ -43,5 +45,10 @@ class MemoRepository(app : Application) {
         memoDao.delete(memoVO.id)
 
     }
+
+    fun delete(id : Long){
+        memoDao.delete(id)
+    }
+
 
 }

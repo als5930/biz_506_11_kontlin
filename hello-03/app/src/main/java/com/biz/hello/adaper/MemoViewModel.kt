@@ -9,18 +9,28 @@ import com.biz.hello.model.MemoVO
 class MemoViewModel(app : Application) :AndroidViewModel(app) {
 
     private val memoRep :MemoRepository = MemoRepository(app)
-    private lateinit var memoList : LiveData<MutableList<MemoVO>>
 
-    init{
-        memoList = memoRep.selectAll()
-    }
 
     fun selectAll() : LiveData<MutableList<MemoVO>>{
-        return memoList
+        return memoRep.selectAll()
+    }
+
+    fun findById(id:Long) :MemoVO{
+        return memoRep.findById(id)
     }
 
     fun insert(memoVO: MemoVO){
         memoRep.insert(memoVO)
     }
+
+    fun update(memoVO: MemoVO){
+        memoRep.update(memoVO)
+    }
+
+    fun delete(id: Long) {
+        memoRep.delete(id)
+    }
+
+
 
 }
